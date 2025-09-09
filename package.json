@@ -1,0 +1,40 @@
+{
+  "name": "@alitojs/components",
+  "version": "0.0.4",
+  "private": false,
+  "main": "lib/index/index.js",
+  "description": "",
+  "keywords": [
+    "element",
+    "vue",
+    "components"
+  ],
+  "author": "foxit",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alitojs/componets.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alitojs/componets/issues"
+  },
+  "homepage": "https://github.com/alitojs/componets#readme",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "inspect":"vue-cli-service inspect --mode production > output.js"
+  },
+  "dependencies": {
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10",
+    "ant-design-vue": "^1.7.2",
+    "vue-router": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
