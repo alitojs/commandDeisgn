@@ -5,11 +5,14 @@
 </template>
 
 <script>
-import CommandDesign from './CommandDesign';
+import CommandDesign from '@alitojs/commandDesign';
 export default {
-  name: 'Title',
+  name: 'CommandDesignPage',
   components: {
     CommandDesign
+  },
+  data() {
+    return {};
   }
 };
 </script>

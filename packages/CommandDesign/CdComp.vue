@@ -19,7 +19,6 @@ export default {
   components: {
     CollapseItem
   },
-
   data() {
     return {
       activeTab: '1', // 激活的 tab
