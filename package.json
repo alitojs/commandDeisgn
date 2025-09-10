@@ -1,5 +1,5 @@
 {
-  "name": "@alitojs/components",
+  "name": "@alitojs/commandDesign",
   "version": "0.0.4",
   "private": false,
   "main": "lib/index/index.js",
@@ -13,22 +13,23 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alitojs/componets.git"
+    "url": "git+https://github.com/alitojs/commandDeisgn.git"
   },
   "bugs": {
-    "url": "https://github.com/alitojs/componets/issues"
+    "url": "https://github.com/alitojs/commandDeisgn/issues"
   },
-  "homepage": "https://github.com/alitojs/componets#readme",
+  "homepage": "https://github.com/alitojs/commandDeisgn#readme",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "inspect":"vue-cli-service inspect --mode production > output.js"
+    "inspect": "vue-cli-service inspect --mode production > output.js"
   },
   "dependencies": {
+    "ant-design-vue": "^1.7.2",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
-    "ant-design-vue": "^1.7.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",

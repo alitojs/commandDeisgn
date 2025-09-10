@@ -19,12 +19,12 @@ module.exports = {
     [
       'import',
       {
-        libraryName: '@alitojs/components',
+        libraryName: '@alitojs/commandDesign',
         camel2DashComponentName: false,
         camel2UnderlineComponentName: false,
         style: (name) => {
           const cssName = name.split('/')[2];
-          return `@alitojs/components/lib/style/${cssName}.css`;
+          return `@alitojs/commandDesign/lib/style/${cssName}.css`;
         }
       }
     ]

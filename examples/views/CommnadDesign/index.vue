@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <color-title title="1233" />
-    <text-tooltip value="12312313123123" :maxLength="6" />
-    <div>this is command design</div>
+  <div class="command-design">
+    <CommandDesign />
   </div>
 </template>
 
 <script>
+import CommandDesign from './CommandDesign';
 export default {
-  name: 'Title'
+  name: 'Title',
+  components: {
+    CommandDesign
+  }
 };
 </script>
