@@ -1,7 +1,7 @@
 <template>
   <div class="command-design-content">
     <CdComp class="cd-left" />
-    <CdView class="cd-view" />
+    <CdView class="cd-view" v-model="formData" @getData="handleGetData" />
     <CdAttribute class="cd-right" />
   </div>
 </template>
@@ -16,6 +16,38 @@ export default {
     CdComp,
     CdView,
     CdAttribute
+  },
+  props: {
+    value: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  emits: ['getData'],
+  data() {
+    return {
+      formData: this.value
+    };
+  },
+  watch: {
+    value: {
+      handler(newVal) {
+        this.formData = newVal;
+      },
+      deep: true,
+      immediate: true
+    },
+    formData: {
+      handler(newVal) {
+        this.$emit('input', newVal);
+      },
+      deep: true
+    }
+  },
+  methods: {
+    handleGetData(data) {
+      this.$emit('getData', data);
+    }
   }
 };
 </script>

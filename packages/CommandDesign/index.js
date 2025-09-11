@@ -1,4 +1,4 @@
-import test from './CommandDesign.vue';
+import test from './index.vue';
 test.install = function (Vue) {
   Vue.component(test.name, test);
 };

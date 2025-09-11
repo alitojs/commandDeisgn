@@ -1,3 +1,3 @@
-import CommandDesign from './CommandDesign';
+import CommandDesignWrapper from './CommandDesign';
 
-export default CommandDesign;
+export default CommandDesignWrapper;

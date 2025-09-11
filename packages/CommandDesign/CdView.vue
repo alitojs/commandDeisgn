@@ -2,19 +2,18 @@
   <div class="cd-view-style">
     <div class="cd-view-content">
       <div class="cd-top">
-        <DragReceive v-model="compFormObj.top" />
+        <DragReceive v-model="compFormObj.top" @change="updateData" />
       </div>
       <div class="cd-bottom">
-        <DragReceive v-model="compFormObj.bottom" />
+        <DragReceive v-model="compFormObj.bottom" @change="updateData" />
       </div>
       <div class="cd-left">
-        <DragReceive v-model="compFormObj.left" multiple direction="vertical" />
+        <DragReceive v-model="compFormObj.left" multiple direction="vertical" @change="updateData" />
       </div>
       <div class="cd-right">
-        <DragReceive v-model="compFormObj.right" multiple direction="vertical" />
+        <DragReceive v-model="compFormObj.right" multiple direction="vertical" @change="updateData" />
       </div>
     </div>
-    <a-button @click="getData">获取数据</a-button>
   </div>
 </template>
 
@@ -23,12 +22,30 @@ import DragReceive from './DragReceive';
 export default {
   name: 'CdView',
   components: { DragReceive },
-  data() {
-    return { compFormObj: {} };
+  props: {
+    value: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  emits: ['getData'],
+  computed: {
+    compFormObj: {
+      get() {
+        return this.value;
+      },
+      set(val) {
+        this.$emit('input', val);
+      }
+    }
   },
   methods: {
+    updateData() {
+      this.$emit('input', this.compFormObj);
+    },
     getData() {
       console.log(this.compFormObj);
+      this.$emit('getData', this.compFormObj);
     }
   }
 };
