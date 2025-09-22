@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'CdComp'
+  name: 'CdAttribute'
 };
 </script>

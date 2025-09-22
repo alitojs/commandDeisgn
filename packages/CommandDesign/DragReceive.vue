@@ -21,7 +21,7 @@
       }">
       <div class="dropped-item" v-for="(item, index) in mergedValue" :key="item.id || index">
         <div class="item-content">
-          <span class="item-name">{{ item.name }}</span>
+          <span class="item-name">{{ item.label }}</span>
           <button class="remove-btn" @click.stop.prevent="removeItem(index)" type="button">×</button>
         </div>
       </div>

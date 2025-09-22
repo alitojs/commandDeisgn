@@ -31,7 +31,7 @@ const DEV_CONFIG = {
       extensions: ['.js', '.vue', '.json'],
       alias: {
         '@': resolve('packages'),
-        '@alitojs/commandDesign': resolve('packages')
+        '@alitojs/command-design': resolve('packages')
       }
     }
   },

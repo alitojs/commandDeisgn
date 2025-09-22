@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import CommandDesign from '@alitojs/commandDesign';
+import CommandDesign from '@alitojs/command-design';
 import { componentList } from './CompJson';
 export default {
   name: 'CommandDesignPage',

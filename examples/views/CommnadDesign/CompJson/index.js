@@ -1,28 +1,17 @@
+import ImageJson from './Image.json';
+import ComponentJson from './Component.json';
 export const componentList = [
   {
     key: '1',
-    name: '头部组件',
-    components: [
-      { id: 1, name: '头部1', type: 'headerOne' },
-      { id: 2, name: '头部2', type: 'headerTwo' },
-      { id: 3, name: '头部3', type: 'headerThree' }
-    ]
+    name: '通用组件',
+    components: [{ ...ImageJson, id: 1 }]
   },
   {
     key: '2',
     name: '列组件',
     components: [
-      { id: 13, name: '列1', type: 'columnOne' },
-      { id: 17, name: '列2', type: 'columnTwo' }
-    ]
-  },
-  {
-    key: '3',
-    name: '底部组件',
-    components: [
-      { id: 14, name: '底部1', type: 'bottomOne' },
-      { id: 15, name: '底部2', type: 'bottomTwo' },
-      { id: 16, name: '底部3', type: 'bottomThree' }
+      { ...ComponentJson, id: 13, label: '警情列表' },
+      { ...ComponentJson, id: 17, label: '预警列表' }
     ]
   }
 ];

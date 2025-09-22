@@ -1,0 +1,8 @@
+{
+  "name": "Image",
+  "label": "图片",
+  "options": {
+    "imageUrl": "",
+    "pcUrl": ""
+  }
+}

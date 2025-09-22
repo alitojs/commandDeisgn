@@ -1,11 +1,11 @@
-# @alitojs/commandDesign
+# @alitojs/command-design
 
 ## 使用教程
 
 #### 执行命令
 
 ```
-yarn add @alitojs/commandDesign
+yarn add @alitojs/command-design
 
 <!-- yarn add babel-plugin-import -D -->
 ```
@@ -19,12 +19,12 @@ module.exports = {
     [
       'import',
       {
-        libraryName: '@alitojs/commandDesign',
+        libraryName: '@alitojs/command-design',
         camel2DashComponentName: false,
         camel2UnderlineComponentName: false,
         style: (name) => {
           const cssName = name.split('/')[2];
-          return `@alitojs/commandDesign/lib/style/${cssName}.css`;
+          return `@alitojs/command-design/lib/style/${cssName}.css`;
         }
       }
     ]

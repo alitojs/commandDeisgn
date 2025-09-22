@@ -17,7 +17,7 @@
         :data-drag-data="JSON.stringify(item)"
         draggable="true"
         @dragstart="handleDragStart($event, item)">
-        <div>{{ item.name }}</div>
+        <div>{{ item.label }}</div>
       </div>
     </draggable>
   </div>

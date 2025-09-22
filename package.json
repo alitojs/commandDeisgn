@@ -1,6 +1,6 @@
 {
-  "name": "@alitojs/commandDesign",
-  "version": "0.0.4",
+  "name": "@alitojs/command-design",
+  "version": "0.0.1",
   "private": false,
   "main": "lib/index/index.js",
   "description": "",
@@ -10,7 +10,7 @@
     "components"
   ],
   "author": "foxit",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alitojs/commandDeisgn.git"
@@ -22,6 +22,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "publish": "npm publish --access public",
     "inspect": "vue-cli-service inspect --mode production > output.js"
   },
   "dependencies": {
