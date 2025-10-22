@@ -2,16 +2,26 @@
   <div class="cd-view-style">
     <div class="cd-view-content">
       <div class="cd-top">
-        <DragReceive v-model="compFormObj.top" @change="updateData" />
+        <DragReceive v-model="compFormObj.top" @change="updateData" @component-select="handleComponentSelect" />
       </div>
       <div class="cd-bottom">
-        <DragReceive v-model="compFormObj.bottom" @change="updateData" />
+        <DragReceive v-model="compFormObj.bottom" @change="updateData" @component-select="handleComponentSelect" />
       </div>
       <div class="cd-left">
-        <DragReceive v-model="compFormObj.left" multiple direction="vertical" @change="updateData" />
+        <DragReceive
+          v-model="compFormObj.left"
+          multiple
+          direction="vertical"
+          @change="updateData"
+          @component-select="handleComponentSelect" />
       </div>
       <div class="cd-right">
-        <DragReceive v-model="compFormObj.right" multiple direction="vertical" @change="updateData" />
+        <DragReceive
+          v-model="compFormObj.right"
+          multiple
+          direction="vertical"
+          @change="updateData"
+          @component-select="handleComponentSelect" />
       </div>
     </div>
   </div>
@@ -28,7 +38,7 @@ export default {
       default: () => ({})
     }
   },
-  emits: ['getData'],
+  emits: ['getData', 'component-select'],
   computed: {
     compFormObj: {
       get() {
@@ -46,6 +56,9 @@ export default {
     getData() {
       console.log(this.compFormObj);
       this.$emit('getData', this.compFormObj);
+    },
+    handleComponentSelect(component) {
+      this.$emit('component-select', component);
     }
   }
 };
@@ -66,24 +79,26 @@ export default {
     top: 0;
     left: 0;
     right: 0;
+    height: 80px;
   }
   .cd-bottom {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    height: 80px;
   }
 
   .cd-left {
     position: absolute;
-    top: 80px;
-    bottom: 80px;
+    top: 90px;
+    height: 510px;
     left: 0;
   }
   .cd-right {
     position: absolute;
-    top: 80px;
-    bottom: 80px;
+    top: 90px;
+    height: 510px;
     right: 0;
   }
 }

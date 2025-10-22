@@ -1,0 +1,7 @@
+- CommandDesign
+  - CommandDesign 大屏设计器全局页面
+  - CdComp 左侧可拖拽组件
+  - CdView 中间可视化预览组件
+  - CdAttribute 右侧属性面板组件
+  - CollapseItem 左侧可折叠拖拽面板
+  - DragReceive 中间接收拖拽内容的组件

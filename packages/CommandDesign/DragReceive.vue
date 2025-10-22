@@ -19,9 +19,23 @@
       :style="{
         'flex-direction': direction == 'horizontal' ? 'column' : 'row'
       }">
-      <div class="dropped-item" v-for="(item, index) in mergedValue" :key="item.id || index">
+      <div
+        class="dropped-item"
+        v-for="(item, index) in mergedValue"
+        :key="(item && item.id) || index"
+        :class="{ selected: selectedItem === item }"
+        @click="selectItem(item)">
         <div class="item-content">
-          <span class="item-name">{{ item.label }}</span>
+          <div class="item-display">
+            <!-- 如果有图片URL，显示图片 -->
+            <div v-if="item && item.imageUrl" class="item-image">
+              <img :src="item.imageUrl" :alt="item.label || '组件图片'" @error="handleImageError" @load="handleImageLoad" />
+            </div>
+            <!-- 显示文字标签 -->
+            <span class="item-name" :style="{ display: item && item.imageUrl ? 'none' : 'block' }">
+              {{ (item && item.label) || '未知组件' }}
+            </span>
+          </div>
           <button class="remove-btn" @click.stop.prevent="removeItem(index)" type="button">×</button>
         </div>
       </div>
@@ -71,16 +85,44 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      selectedItem: null
+    };
   },
   methods: {
     handleClone(original) {
+      console.log('handleClone 接收到的 original:', original);
+
+      // 确保 original 有正确的数据结构
+      if (!original || typeof original !== 'object') {
+        console.warn('handleClone: original 数据无效', original);
+        return {
+          id: this.generateUniqueId(),
+          label: '未知组件',
+          type: 'unknown'
+        };
+      }
+
+      // 确保 original 有必要的属性
+      if (!original.id && !original.label) {
+        console.warn('handleClone: original 缺少必要属性', original);
+        return {
+          id: this.generateUniqueId(),
+          label: original.name || '未知组件',
+          type: original.type || 'unknown'
+        };
+      }
+
       // 使用 vuedraggable 的 clone，统一生成我们需要的数据结构
-      return {
+      const clonedItem = {
         ...original,
         id: this.generateUniqueId(),
-        originalId: original.id
+        originalId: original.id,
+        label: original.label || original.name || '未知组件'
       };
+
+      console.log('handleClone 生成的克隆数据:', clonedItem);
+      return clonedItem;
     },
     // 保证在 non-multiple 模式下，长度不超过 1
     ensureLengthLimit(list) {
@@ -91,19 +133,36 @@ export default {
     },
 
     handleChange(evt) {
+      console.log('handleChange 事件:', evt);
+      console.log('当前 mergedValue:', this.mergedValue);
+
       // 统一处理 add/update/remove
       const { added, moved, removed } = evt;
 
       if (added) {
+        console.log('添加事件:', added);
         const newIndex = added.newIndex;
         let next = [...this.mergedValue];
+
+        console.log('添加前的数组:', next);
+        console.log('新添加的项:', next[newIndex]);
+
+        // 检查新添加的项是否有效
+        const newItem = next[newIndex];
+        if (!newItem || typeof newItem !== 'object') {
+          console.warn('添加的项无效，跳过:', newItem);
+          return;
+        }
+
         if (!this.multiple) {
           // 单选：只保留当前项
-          this.mergedValue = [next[newIndex]];
+          this.mergedValue = [newItem];
         } else {
           // 多选：由 clone 已生成规范对象，通常无需额外处理；仅做长度限制
           this.mergedValue = this.ensureLengthLimit(next);
         }
+
+        console.log('添加后的 mergedValue:', this.mergedValue);
         this.$emit('component-added', this.mergedValue[newIndex] || this.mergedValue[0], newIndex);
         return;
       }
@@ -178,6 +237,34 @@ export default {
     // 获取当前所有拖拽的组件
     getDroppedComponents() {
       return this.mergedValue;
+    },
+
+    // 选中组件
+    selectItem(item) {
+      this.selectedItem = item;
+      this.$emit('component-select', item);
+      console.log('选中组件:', item);
+    },
+
+    // 图片加载错误处理
+    handleImageError(event) {
+      console.warn('图片加载失败:', event.target.src);
+      // 隐藏图片，显示文字标签
+      const imgContainer = event.target.closest('.item-image');
+      if (imgContainer) {
+        imgContainer.style.display = 'none';
+        // 显示文字标签
+        const itemContent = event.target.closest('.item-content');
+        const itemName = itemContent.querySelector('.item-name');
+        if (itemName) {
+          itemName.style.display = 'block';
+        }
+      }
+    },
+
+    // 图片加载成功处理
+    handleImageLoad(event) {
+      console.log('图片加载成功:', event.target.src);
     }
   }
 };
@@ -212,9 +299,28 @@ export default {
 
   .dropped-item {
     margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 100%;
+    // max-width: 150px;
 
     &:last-child {
       margin-bottom: 0;
+    }
+
+    &.selected {
+      .item-content {
+        border-color: #1890ff;
+        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        background-color: #f0f8ff;
+      }
+    }
+
+    &:hover {
+      .item-content {
+        border-color: #40a9ff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
     }
 
     .item-content {
@@ -227,10 +333,37 @@ export default {
       border-radius: 4px;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease;
+      // min-height: 60px;
+      height: 100%;
+      position: relative;
 
       &:hover {
         border-color: #1890ff;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      }
+
+      .item-display {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        height: 100%;
+      }
+
+      .item-image {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 2px;
+        }
       }
 
       .item-name {
@@ -253,6 +386,9 @@ export default {
         align-items: center;
         justify-content: center;
         transition: all 0.2s ease;
+        position: absolute;
+        right: 4px;
+        top: 4px;
 
         &:hover {
           background-color: #ff7875;
