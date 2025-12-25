@@ -28,15 +28,12 @@
         <div class="item-content">
           <div class="item-display">
             <!-- 如果有图片URL，显示图片 -->
-            <div v-if="item && item.options && item.options.imageUrl" class="item-image">
-              <img
-                :src="item.options.imageUrl"
-                :alt="item.label || '组件图片'"
-                @error="handleImageError"
-                @load="handleImageLoad" />
+            <!-- 优先使用 options.imageUrl，如果没有则使用根级别的 imageUrl -->
+            <div v-if="item && getImageUrl(item)" class="item-image">
+              <img :src="getImageUrl(item)" :alt="item.label || '组件图片'" @error="handleImageError" @load="handleImageLoad" />
             </div>
             <!-- 显示文字标签 -->
-            <span class="item-name" :style="{ display: item && item.options && item.options.imageUrl ? 'none' : 'block' }">
+            <span class="item-name" :style="{ display: item && getImageUrl(item) ? 'none' : 'block' }">
               {{ (item && item.label) || '未知组件' }}
             </span>
           </div>
@@ -269,6 +266,12 @@ export default {
     // 图片加载成功处理
     handleImageLoad(event) {
       console.log('图片加载成功:', event.target.src);
+    },
+
+    // 获取图片URL，imageUrl 只在 JSON 中定义，不在 options 中
+    getImageUrl(item) {
+      if (!item) return null;
+      return item.imageUrl || null;
     }
   }
 };

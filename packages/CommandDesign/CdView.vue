@@ -2,7 +2,7 @@
   <div class="cd-view-style">
     <div class="cd-view-content">
       <div class="cd-top">
-        <DragReceive v-model="compFormObj.top" @change="updateData" @component-select="handleComponentSelect" />
+        <DragReceive v-model="compFormObj.top" multiple @change="updateData" @component-select="handleComponentSelect" />
       </div>
       <div class="cd-bottom">
         <DragReceive v-model="compFormObj.bottom" @change="updateData" @component-select="handleComponentSelect" />

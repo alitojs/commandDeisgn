@@ -40,14 +40,6 @@
             placeholder="请输入高度"
             @change="handleAttributeChange" />
 
-          <!-- imageUrl 属性 -->
-          <AttributeInput
-            v-if="hasOption('imageUrl')"
-            v-model="attributeForm.imageUrl"
-            label="图片地址"
-            placeholder="请输入图片地址"
-            @change="handleAttributeChange" />
-
           <!-- 其他类型的属性组件，后续扩展 -->
           <!-- 例如：<AttributeSelect v-if="hasOption('color')" label="颜色" /> -->
         </a-form>
@@ -100,10 +92,13 @@ export default {
         pcUrl: ''
       };
 
-      // 从 options 中加载所有属性值
+      // 从 options 中加载所有属性值（排除 imageUrl，因为它是 JSON 中写死的，不需要配置）
       if (component.options && typeof component.options === 'object') {
         Object.keys(component.options).forEach((key) => {
-          form[key] = component.options[key] || '';
+          // 跳过 imageUrl，它不在配置面板中
+          if (key !== 'imageUrl') {
+            form[key] = component.options[key] || '';
+          }
         });
       }
 
@@ -117,10 +112,14 @@ export default {
 
     handleAttributeChange(value) {
       // 属性变化时，通知父组件更新
-      // 所有属性值都应该存储在 options 中
+      // 所有属性值都应该存储在 options 中（排除 imageUrl，它是 JSON 中写死的）
+      const options = { ...this.attributeForm };
+      // 确保不会包含 imageUrl
+      delete options.imageUrl;
+
       this.$emit('attribute-change', {
         component: this.selectedComponent,
-        options: { ...this.attributeForm }
+        options
       });
     },
 
