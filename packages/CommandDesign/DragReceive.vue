@@ -28,11 +28,15 @@
         <div class="item-content">
           <div class="item-display">
             <!-- 如果有图片URL，显示图片 -->
-            <div v-if="item && item.imageUrl" class="item-image">
-              <img :src="item.imageUrl" :alt="item.label || '组件图片'" @error="handleImageError" @load="handleImageLoad" />
+            <div v-if="item && item.options && item.options.imageUrl" class="item-image">
+              <img
+                :src="item.options.imageUrl"
+                :alt="item.label || '组件图片'"
+                @error="handleImageError"
+                @load="handleImageLoad" />
             </div>
             <!-- 显示文字标签 -->
-            <span class="item-name" :style="{ display: item && item.imageUrl ? 'none' : 'block' }">
+            <span class="item-name" :style="{ display: item && item.options && item.options.imageUrl ? 'none' : 'block' }">
               {{ (item && item.label) || '未知组件' }}
             </span>
           </div>

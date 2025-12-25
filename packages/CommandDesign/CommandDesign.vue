@@ -55,10 +55,13 @@ export default {
       console.log('选中组件:', component);
     },
 
-    handleAttributeChange({ component, attributes }) {
-      // 更新组件属性
-      Object.assign(component, attributes);
-      console.log('属性更新:', component, attributes);
+    handleAttributeChange({ component, options }) {
+      // 更新组件属性，所有属性值都存储在 options 中
+      if (!component.options) {
+        this.$set(component, 'options', {});
+      }
+      Object.assign(component.options, options);
+      console.log('属性更新:', component, options);
 
       // 触发数据更新 - 使用 Vue.set 确保响应式更新
       this.$set(this.formData, 'updated', Date.now());

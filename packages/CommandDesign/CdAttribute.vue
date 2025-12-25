@@ -16,30 +16,40 @@
 
       <div class="attribute-form">
         <a-form :model="attributeForm" layout="vertical">
+          <!-- PC端路径始终显示 -->
           <AttributeInput
             v-model="attributeForm.pcUrl"
             label="PC端路径"
             placeholder="请输入PC端相对路径，如：/home"
             @change="handleAttributeChange" />
 
-          <!-- 可以根据组件类型动态添加更多属性 -->
-          <template v-if="selectedComponent.type === 'image'">
-            <AttributeInput
-              v-model="attributeForm.alt"
-              label="图片描述"
-              placeholder="请输入图片描述"
-              @change="handleAttributeChange" />
-            <AttributeInput
-              v-model="attributeForm.width"
-              label="宽度"
-              placeholder="请输入宽度，如：100px"
-              @change="handleAttributeChange" />
-            <AttributeInput
-              v-model="attributeForm.height"
-              label="高度"
-              placeholder="请输入高度，如：100px"
-              @change="handleAttributeChange" />
-          </template>
+          <!-- 根据 options 动态渲染属性 -->
+          <!-- width 属性 -->
+          <AttributeInput
+            v-if="hasOption('width')"
+            v-model="attributeForm.width"
+            label="宽度"
+            placeholder="请输入宽度"
+            @change="handleAttributeChange" />
+
+          <!-- height 属性 -->
+          <AttributeInput
+            v-if="hasOption('height')"
+            v-model="attributeForm.height"
+            label="高度"
+            placeholder="请输入高度"
+            @change="handleAttributeChange" />
+
+          <!-- imageUrl 属性 -->
+          <AttributeInput
+            v-if="hasOption('imageUrl')"
+            v-model="attributeForm.imageUrl"
+            label="图片地址"
+            placeholder="请输入图片地址"
+            @change="handleAttributeChange" />
+
+          <!-- 其他类型的属性组件，后续扩展 -->
+          <!-- 例如：<AttributeSelect v-if="hasOption('color')" label="颜色" /> -->
         </a-form>
       </div>
     </div>
@@ -67,10 +77,7 @@ export default {
   data() {
     return {
       attributeForm: {
-        pcUrl: '',
-        alt: '',
-        width: '',
-        height: ''
+        pcUrl: ''
       }
     };
   },
@@ -88,30 +95,48 @@ export default {
   },
   methods: {
     loadComponentAttributes(component) {
-      // 加载组件的属性配置
-      this.attributeForm = {
-        pcUrl: component.pcUrl || '',
-        alt: component.alt || '',
-        width: component.width || '',
-        height: component.height || ''
+      // 加载组件的属性配置，所有属性值都从 options 中读取
+      const form = {
+        pcUrl: ''
       };
+
+      // 从 options 中加载所有属性值
+      if (component.options && typeof component.options === 'object') {
+        Object.keys(component.options).forEach((key) => {
+          form[key] = component.options[key] || '';
+        });
+      }
+
+      // pcUrl 也存储在 options 中
+      if (component.options && component.options.pcUrl !== undefined) {
+        form.pcUrl = component.options.pcUrl || '';
+      }
+
+      this.attributeForm = form;
     },
 
     handleAttributeChange(value) {
       // 属性变化时，通知父组件更新
+      // 所有属性值都应该存储在 options 中
       this.$emit('attribute-change', {
         component: this.selectedComponent,
-        attributes: { ...this.attributeForm }
+        options: { ...this.attributeForm }
       });
     },
 
     resetForm() {
       this.attributeForm = {
-        pcUrl: '',
-        alt: '',
-        width: '',
-        height: ''
+        pcUrl: ''
       };
+    },
+
+    // 判断 options 中是否有指定的 key
+    hasOption(key) {
+      if (!this.selectedComponent || !this.selectedComponent.options) {
+        return false;
+      }
+      const options = this.selectedComponent.options;
+      return typeof options === 'object' && key in options;
     }
   }
 };

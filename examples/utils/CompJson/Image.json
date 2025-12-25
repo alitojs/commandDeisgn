@@ -1,8 +1,11 @@
 {
   "name": "Image",
   "label": "图片",
+  "type": "Image",
   "options": {
     "imageUrl": "",
-    "pcUrl": ""
+    "pcUrl": "",
+    "width": "",
+    "height": ""
   }
 }
